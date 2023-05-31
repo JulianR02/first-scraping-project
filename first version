@@ -1,0 +1,28 @@
+import requests
+from bs4 import BeautifulSoup
+import time
+
+url = input("entrez l'url")
+check = requests.get(url)
+wanted_article = input("nommer l'article voulue")
+print(check)
+def alert_article():
+    if check.status_code == 200:
+        soup = BeautifulSoup(check.text, 'html.parser')
+        new_article = soup.find('div', text=wanted_article)
+        if new_article is not None:
+            print("votre article {} est disponible".format(wanted_article))
+        else:
+            print("votre article {} est indisponible".format(wanted_article))
+    else:
+        print("eror 404")
+    return new_article
+
+new_article = alert_article()
+true_variable = True
+while true_variable is True:
+    if new_article is None:
+        time.sleep(10)
+        alert_article()
+    else:
+        true_variable = False
